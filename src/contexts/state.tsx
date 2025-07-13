@@ -12,8 +12,12 @@ import React, {
 interface AppContextState {
   currentPage: string
   updateCurrentPage: (val: string) => void
-  isDark: boolean,
-  toggleTheme: () => void,
+  isDark: boolean
+  toggleTheme: () => void
+  initialDashboard: Array<object>
+  resetDashboard: () => void
+  editMode: boolean
+  toggleEditMode: () => void
 }
 
 const AppContext = createContext<AppContextState | undefined>(undefined)
@@ -25,6 +29,14 @@ interface AppWrapperProps {
 const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
   const [currentPage, handleCurrentPage] = useState<string>('')
   const [isDark, setIsDark] = useState<boolean>(false)
+  const [initialDashboard, setInitialDashboard] = useState<Array<object>>([
+    { i: 'chart', w: 1, h: 2, x: 0, y: 0 },
+    { i: 'engagement', w: 1, h: 2, x: 1, y: 2 },
+    { i: 'table', w: 1, h: 2, x: 2, y: 0 },
+    { i: 'products', w: 1, h: 2, x: 1, y: 0 },
+    { i: 'map', w: 3, h: 4, x: 0, y: 3 },
+  ])
+  const [editMode, setEditMode] = useState<boolean>(false)
 
   // Handle the current page of the site
   const updateCurrentPage = useCallback((val: string) => {
@@ -49,14 +61,37 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
     setIsDark((prev) => !prev)
   }, [])
 
+  // Reset the dashboard layout to initial state, which is triggered in the header
+  const resetDashboard = useCallback(() => {
+    setInitialDashboard([
+      { i: 'chart', w: 1, h: 2, x: 0, y: 0 },
+      { i: 'engagement', w: 1, h: 2, x: 1, y: 2 },
+      { i: 'table', w: 1, h: 2, x: 2, y: 0 },
+      { i: 'products', w: 1, h: 2, x: 1, y: 0 },
+      { i: 'map', w: 3, h: 4, x: 0, y: 3 },
+    ])
+    localStorage.removeItem('layout')
+  }, [])
+
+  // Toggle edit mode for the dashboard layout, which is triggered in the header
+  const toggleEditMode = useCallback(() => {
+    setEditMode(prev => !prev)
+  }, [])
+
   const sharedState: AppContextState = {
     currentPage,
     updateCurrentPage,
     isDark,
     toggleTheme,
+    initialDashboard,
+    resetDashboard,
+    editMode,
+    toggleEditMode,
   }
 
-  return <AppContext.Provider value={sharedState}>{children}</AppContext.Provider>
+  return (
+    <AppContext.Provider value={sharedState}>{children}</AppContext.Provider>
+  )
 }
 
 // Custom hook to use the AppContext

@@ -1,16 +1,17 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { useAppContext } from '@/contexts/state'
 import GridLayout from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
-import WidgetContainer from '../WidgetContainer/WidgetContainer'
-import SalesChart from '../SalesChart/SalesChart'
-import EngagementChart from '../EngagementChart/EngagementChart'
-import RecentTransactions from '../RecentTransactions/RecentTransactions'
-import TopProducts from '../TopProducts/TopProducts'
-import ActivityMap from '../ActivityMap/ActivityMap'
+import WidgetContainer from '../DashboardWidgets/WidgetContainer/WidgetContainer'
+import SalesChart from '../DashboardWidgets/SalesChart/SalesChart'
+import EngagementChart from '../DashboardWidgets/EngagementChart/EngagementChart'
+import RecentTransactions from '../DashboardWidgets/RecentTransactions/RecentTransactions'
+import TopProducts from '../DashboardWidgets/TopProducts/TopProducts'
+import ActivityMap from '../DashboardWidgets/ActivityMap/ActivityMap'
 
 import { fetchLiveData } from '@/lib/fetchData'
 
@@ -21,15 +22,8 @@ const defaultStyle = {
   borderRadius: '8px',
 }
 
-const defaultLayouts = [
-  { i: 'chart', w: 1, h: 2, x: 0, y: 0 },
-  { i: 'engagement', w: 1, h: 2, x: 1, y: 2 },
-  { i: 'table', w: 1, h: 2, x: 2, y: 0 },
-  { i: 'products', w: 1, h: 2, x: 1, y: 0 },
-  { i: 'map', w: 3, h: 4, x: 0, y: 3 },
-]
-
 export default function DashboardLayout() {
+  const { initialDashboard, editMode } = useAppContext()
   const [data, setData] = useState<any>(null)
   const [layout, setLayout] = useState<any[] | null>(null)
 
@@ -44,8 +38,8 @@ export default function DashboardLayout() {
     }
 
     load()
-    const interval = setInterval(load, 5000)
-    return () => clearInterval(interval)
+    // const interval = setInterval(load, 5000)
+    // return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
@@ -53,9 +47,9 @@ export default function DashboardLayout() {
     if (saved) {
       setLayout(JSON.parse(saved))
     } else {
-      setLayout(defaultLayouts)
+      setLayout(initialDashboard)
     }
-  }, [])
+  }, [initialDashboard])
 
   const onLayoutChange = (newLayout: any[]) => {
     setLayout(newLayout)
@@ -72,9 +66,9 @@ export default function DashboardLayout() {
       rowHeight={160}
       width={1200}
       margin={[16, 16]}
-      onLayoutChange={onLayoutChange}
-      isResizable={true}
-      isDraggable={true}
+      onLayoutChange={editMode ? onLayoutChange : undefined}
+      isResizable={editMode}
+      isDraggable={editMode}
       compactType='vertical'
       draggableCancel='.leaflet-container'
     >
@@ -124,7 +118,7 @@ export default function DashboardLayout() {
 
       <div key='map'>
         <WidgetContainer
-          title='Activity Map'
+          title='Locations'
           style={defaultStyle}
         >
           {data?.map?.locations && (
