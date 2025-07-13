@@ -21,9 +21,17 @@ const defaultStyle = {
   borderRadius: '8px',
 }
 
+const defaultLayouts = [
+  { i: 'chart', x: 0, y: 0, w: 1, h: 2 },
+  { i: 'engagement', x: 1, y: 0, w: 1, h: 2 },
+  { i: 'table', x: 2, y: 0, w: 1, h: 1 },
+  { i: 'products', x: 0, y: 2, w: 1, h: 1 },
+  { i: 'map', x: 1, y: 2, w: 2, h: 2 },
+]
+
 export default function DashboardLayout() {
   const [data, setData] = useState<any>(null)
-  const [layout, setLayout] = useState<any[]>([])
+  const [layout, setLayout] = useState<any[] | null>(null)
 
   useEffect(() => {
     const load = async () => {
@@ -45,13 +53,7 @@ export default function DashboardLayout() {
     if (saved) {
       setLayout(JSON.parse(saved))
     } else {
-      setLayout([
-        { i: 'chart', x: 0, y: 0, w: 1, h: 2 },
-        { i: 'engagement', x: 1, y: 0, w: 1, h: 2 },
-        { i: 'table', x: 0, y: 2, w: 1, h: 2 },
-        { i: 'products', x: 1, y: 2, w: 1, h: 2 },
-        { i: 'map', x: 2, y: 0, w: 1, h: 4 },
-      ])
+      setLayout(defaultLayouts)
     }
   }, [])
 
@@ -60,6 +62,8 @@ export default function DashboardLayout() {
     localStorage.setItem('layout', JSON.stringify(newLayout))
   }
 
+  if (!layout) return null
+
   return (
     <GridLayout
       className='layout'
@@ -67,10 +71,17 @@ export default function DashboardLayout() {
       cols={3}
       rowHeight={160}
       width={1200}
+      margin={[16, 16]}
       onLayoutChange={onLayoutChange}
+      isResizable={true}
+      isDraggable={true}
+      compactType='vertical'
     >
       <div key='chart'>
-        <WidgetContainer title='Sales Chart' style={defaultStyle}>
+        <WidgetContainer
+          title='Sales Chart'
+          style={defaultStyle}
+        >
           {data?.charts?.salesOverTime && (
             <SalesChart data={data.charts.salesOverTime} />
           )}
@@ -78,7 +89,10 @@ export default function DashboardLayout() {
       </div>
 
       <div key='engagement'>
-        <WidgetContainer title='User Engagement' style={defaultStyle}>
+        <WidgetContainer
+          title='User Engagement'
+          style={defaultStyle}
+        >
           {data?.charts?.userEngagement && (
             <EngagementChart data={data.charts.userEngagement} />
           )}
@@ -86,7 +100,10 @@ export default function DashboardLayout() {
       </div>
 
       <div key='table'>
-        <WidgetContainer title='Recent Transactions' style={defaultStyle}>
+        <WidgetContainer
+          title='Recent Transactions'
+          style={defaultStyle}
+        >
           {data?.tables?.recentTransactions && (
             <RecentTransactions transactions={data.tables.recentTransactions} />
           )}
@@ -94,7 +111,10 @@ export default function DashboardLayout() {
       </div>
 
       <div key='products'>
-        <WidgetContainer title='Top Products' style={defaultStyle}>
+        <WidgetContainer
+          title='Top Products'
+          style={defaultStyle}
+        >
           {data?.tables?.topProducts && (
             <TopProducts products={data.tables.topProducts} />
           )}
@@ -102,7 +122,10 @@ export default function DashboardLayout() {
       </div>
 
       <div key='map'>
-        <WidgetContainer title='Activity Map' style={defaultStyle}>
+        <WidgetContainer
+          title='Activity Map'
+          style={defaultStyle}
+        >
           {data?.map?.locations && (
             <ActivityMap locations={data.map.locations} />
           )}
