@@ -14,7 +14,7 @@ const WidgetContainer = ({ title, children, style }: Props) => {
 
   return (
     <div
-      className={`p-4 rounded-md shadow-md`}
+      className={`py-3 rounded-md shadow-md`}
       style={{
         backgroundColor: bgColor,
         color: textColor,
@@ -22,8 +22,16 @@ const WidgetContainer = ({ title, children, style }: Props) => {
         borderRadius: borderRadius,
       }}
     >
-      <div className='font-bold mb-2'>{title}</div>
-      {children}
+      <div className='px-3 mb-3 border-b border-[var(--neutral-4)]'>
+        <p className='bold pb-3'>
+          {title}
+        </p>
+      </div>
+
+      <div className='px-3'>
+        {children}
+      </div>
+      
     </div>
   )
 }

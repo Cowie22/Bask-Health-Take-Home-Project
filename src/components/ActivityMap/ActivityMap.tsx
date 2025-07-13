@@ -43,19 +43,22 @@ const ActivityMap = ({ locations }: { locations: Location[] }) => {
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
       />
-      {locations.map((loc, index) => (
-        <Marker
-          key={index}
-          position={[loc.latitude, loc.longitude]}
-          icon={markerIcon}
-        >
-          <Popup>
-            <strong>{loc.label}</strong>
-            <br />
-            Activity: {loc.activity}
-          </Popup>
-        </Marker>
-      ))}
+      {locations.map((location, i) => {
+        const { latitude, longitude, label, activity } = location
+        return (
+          <Marker
+            key={i}
+            position={[latitude, longitude]}
+            icon={markerIcon}
+          >
+            <Popup>
+              <strong>{label}</strong>
+              <br />
+              Activity: {activity}
+            </Popup>
+          </Marker>
+        )
+      })}
     </MapContainer>
   )
 }
