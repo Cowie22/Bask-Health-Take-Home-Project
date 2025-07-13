@@ -1,24 +1,342 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import './variables.css';
 
-:root {
-  --background: #FAFDFF;
-  --foreground: #181B1C;
-}
 
-.dark {
-  --background: #181B1C;
-  --foreground: #FAFDFF;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+
+  &.scroll-none {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  &.modal-hidden {
+    overflow: hidden;
+  }
+}
+
+a {
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: var(--geist);
+  color: var(--neutral-1);
+
+  &:visited {
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+h1,
+.h1 {
+  font-family: var(--geist);
+  font-style: normal;
+  font-size: 39px;
+  line-height: 44px;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 39px;
+  }
+}
+
+h1,
+.h1 {
+  font-family: var(--geist);
+  font-style: normal;
+  font-size: 39px;
+  line-height: 120%;
+  font-weight: 400;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 39px;
+  }
+}
+
+h2,
+.h2 {
+  font-family: var(--inter);
+  font-style: normal;
+  font-size: 31px;
+  line-height: 120%;
+  font-weight: 400;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 31px;
+  }
+}
+
+h3,
+.h3 {
+  font-family: var(--inter);
+  font-style: normal;
+  font-size: 25px;
+  line-height: 120%;
+  font-weight: 400;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 25px;
+  }
+}
+
+h4,
+.h4 {
+  font-family: var(--inter);
+  font-style: normal;
+  font-size: 20px;
+  line-height: 120%;
+  font-weight: 400;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 20px;
+  }
+}
+
+p,
+.body-copy {
+  font-family: var(--geist);
+  font-style: normal;
+  font-size: 16px;
+  line-height: 120%;
+  font-weight: 400;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 16px;
+  }
+}
+
+h5,
+.h5 {
+  font-family: var(--geist);
+  font-style: normal;
+  font-size: 13px;
+  line-height: 120%;
+  font-weight: 400;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 13px;
+  }
+}
+
+h6,
+.h6 {
+  font-family: var(--geist);
+  font-style: normal;
+  font-size: 10px;
+  line-height: 120%;
+  font-weight: 400;
+  color: var(--neutral-1);
+  margin: 0;
+
+  @media only screen and (max-width: 991px) {
+    font-size: 10px;
+  }
+}
+
+.geist {
+  font-family: var(--geist);
+}
+
+.inter {
+  font-family: var(--inter);
+}
+
+.normal {
+  font-weight: 400;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.blue-1 {
+  color: var(--blue-1);
+}
+
+.blue-2 {
+  color: var(--blue-2);
+}
+
+.blue-3 {
+  color: var(--blue-3);
+}
+
+.blue-4 {
+  color: var(--blue-4);
+}
+
+.blue-5 {
+  color: var(--blue-5);
+}
+
+.blue-6 {
+  color: var(--blue-6);
+}
+
+.neutral-1 {
+  color: var(--neutral-1);
+}
+
+.neutral-2 {
+  color: var(--neutral-2);
+}
+
+.neutral-3 {
+  color: var(--neutral-3);
+}
+
+.neutral-4 {
+  color: var(--neutral-4);
+}
+
+.neutral-5 {
+  color: var(--neutral-5);
+}
+
+.neutral-6 {
+  color: var(--neutral-6);
+}
+
+sup {
+  font-size: 50%;
+  top: -0.79em;
+}
+
+sub {
+  vertical-align: baseline;
+  position: relative;
+  top: 0em;
+}
+
+.cta-btn {
+  position: relative;
+  overflow: hidden;
+  color: var(--neutral-1);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: block;
+  min-height: fit-content;
+  text-align: center;
+  font-family: var(--geist);
+  font-style: normal;
+  font-size: 13px;
+  line-height: 120%;
+  transition: all 0.5s;
+  outline: none !important;
+
+  &.btn-full {
+    width: 100%;
+  }
+
+  &:hover {
+    cursor: pointer;
+    outline: none;
+    transition: all 0.5s;
+    &::before {
+      width: 100%;
+      transition: all 0.5s;
+    }
+  }
+
+  &:visited {
+    text-decoration: none;
+    outline: none;
+  }
+}
+
+.white-btn {
+  background: var(--neutral-6);
+  color: var(--neutral-1);
+  border: 1px solid var(--neutral-4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    margin-left: 8px;
+    > * {
+      fill: var(--neutral-1);
+      transition: all 0.5s;
+    }
+  }
+  &:hover {
+    background: var(--neutral-1);
+    color: var(--neutral-6);
+
+    svg {
+      > * {
+        fill: var(--neutral-6);
+        transition: all 0.5s;
+        transition-delay: 0.2s;
+      }
+    }
+  }
+}
+
+.white-ul-solid-circle,
+.black-ul-solid-circle {
+  list-style-type: disc;
+  padding: 0 0 0 18px;
+  margin: 0;
+
+  li {
+    font-family: var(--geist);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    margin-bottom: 8px;
+    color: var(--neutral-1);
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &::marker {
+      color: var(--neutral-1);
+    }
+  }
+}
+
+.white-ul-solid-circle {
+  li {
+    color: var(--neutral-6);
+    &::marker {
+      color: var(--neutral-6);
+    }
+  }
+}
+
+.black-ul-solid-circle {
+  li {
+    color: var(--neutral-1);
+    &::marker {
+      color: var(--neutral-1);
+    }
+  }
 }

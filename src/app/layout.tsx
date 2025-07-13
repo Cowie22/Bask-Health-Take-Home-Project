@@ -1,7 +1,7 @@
 import './globals.css'
 
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Inter } from 'next/font/google'
 import { AppWrapper } from '@/contexts/state'
 
 import Header from '@/components/Header/Header'
@@ -9,11 +9,15 @@ import Header from '@/components/Header/Header'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '700'], 
 })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const inter = Inter({
+  variable: '--font-inter',
   subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '700'], 
 })
 
 export const metadata: Metadata = {
@@ -30,7 +34,7 @@ export default function RootLayout({
     <AppWrapper>
       <html lang='en'>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${inter.variable} antialiased`}
         >
           <Header />
           <main>{children}</main>

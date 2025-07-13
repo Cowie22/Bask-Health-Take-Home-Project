@@ -11,7 +11,7 @@ type Props = {
 
 const WidgetContainer = ({ title, children, style }: Props) => {
   const { bgColor, textColor, borderColor, borderRadius } = style
-  
+
   return (
     <div
       className={`p-4 rounded-md shadow-md`}
