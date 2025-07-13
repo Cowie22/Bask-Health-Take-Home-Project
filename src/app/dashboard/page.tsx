@@ -1,57 +1,17 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { memo } from 'react'
 
-import WidgetContainer from '@/components/WidgetContainer/WidgetContainer'
-import { fetchLiveData } from '@/lib/fetchData'
+import DashboardLayout from '@/components/DashboardLayout/DashboardLayout'
 
-const defaultStyle = {
-  bgColor: 'var(--neutral-6)',
-  textColor: 'var(--neutral-1)',
-  borderColor: 'var(--neutral-4)',
-  borderRadius: '8px',
-}
 
 const Dashboard = () => {
-  const [data, setData] = useState(null)
-
-  useEffect(() => {
-    const load = async () => {
-      const result = await fetchLiveData()
-      setData(result)
-    }
-
-    load()
-    const interval = setInterval(load, 5000)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <section className='container w-full mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-4'>
-      <WidgetContainer
-        title='Live Chart'
-        style={defaultStyle}
-      >
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </WidgetContainer>
-
-      <WidgetContainer
-        title='Live Table'
-        style={defaultStyle}
-      >
-        {/* Replace this with a real table component */}
-        <p>Table placeholder</p>
-      </WidgetContainer>
-
-      <WidgetContainer
-        title='Map'
-        style={defaultStyle}
-      >
-        {/* Replace with Map component */}
-        <p>Map placeholder</p>
-      </WidgetContainer>
+      <DashboardLayout />
     </section>
   )
 }
 
-export default Dashboard
+export default memo(Dashboard)
