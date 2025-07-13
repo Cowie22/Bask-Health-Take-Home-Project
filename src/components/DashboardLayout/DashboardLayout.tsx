@@ -22,11 +22,11 @@ const defaultStyle = {
 }
 
 const defaultLayouts = [
-  { i: 'chart', x: 0, y: 0, w: 1, h: 2 },
-  { i: 'engagement', x: 1, y: 0, w: 1, h: 2 },
-  { i: 'table', x: 2, y: 0, w: 1, h: 1 },
-  { i: 'products', x: 0, y: 2, w: 1, h: 1 },
-  { i: 'map', x: 1, y: 2, w: 2, h: 2 },
+  { i: 'chart', w: 1, h: 2, x: 0, y: 0 },
+  { i: 'engagement', w: 1, h: 2, x: 1, y: 2 },
+  { i: 'table', w: 1, h: 2, x: 2, y: 0 },
+  { i: 'products', w: 1, h: 2, x: 1, y: 0 },
+  { i: 'map', w: 3, h: 2, x: 0, y: 4 },
 ]
 
 export default function DashboardLayout() {
