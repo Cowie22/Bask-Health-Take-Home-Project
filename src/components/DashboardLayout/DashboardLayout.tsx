@@ -26,7 +26,7 @@ const defaultLayouts = [
   { i: 'engagement', w: 1, h: 2, x: 1, y: 2 },
   { i: 'table', w: 1, h: 2, x: 2, y: 0 },
   { i: 'products', w: 1, h: 2, x: 1, y: 0 },
-  { i: 'map', w: 3, h: 2, x: 0, y: 4 },
+  { i: 'map', w: 3, h: 4, x: 0, y: 3 },
 ]
 
 export default function DashboardLayout() {
