@@ -1,6 +1,8 @@
 'use client'
 
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import { Icon, LatLngTuple } from 'leaflet'
 
 interface Location {
   latitude: number
@@ -9,19 +11,52 @@ interface Location {
   activity: number
 }
 
+const markerIcon = new Icon({
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+})
+
 const ActivityMap = ({ locations }: { locations: Location[] }) => {
+  const center: LatLngTuple = [39.8283, -98.5795]
+
+  const MapAutoResize = () => {
+    const map = useMap()
+
+    useEffect(() => {
+      map.invalidateSize()
+    }, [map])
+
+    return null
+  }
+
   return (
-    <div className='space-y-2'>
+    <MapContainer
+      center={center}
+      zoom={4}
+      scrollWheelZoom={false}
+      style={{ height: '500px', width: '100%', borderRadius: '8px' }}
+    >
+      <MapAutoResize />
+      <TileLayer
+        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+      />
       {locations.map((loc, index) => (
-        <div
+        <Marker
           key={index}
-          className='flex justify-between'
+          position={[loc.latitude, loc.longitude]}
+          icon={markerIcon}
         >
-          <span>{loc.label}</span>
-          <span>{loc.activity}</span>
-        </div>
+          <Popup>
+            <strong>{loc.label}</strong>
+            <br />
+            Activity: {loc.activity}
+          </Popup>
+        </Marker>
       ))}
-    </div>
+    </MapContainer>
   )
 }
 

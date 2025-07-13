@@ -76,6 +76,7 @@ export default function DashboardLayout() {
       isResizable={true}
       isDraggable={true}
       compactType='vertical'
+      draggableCancel='.leaflet-container'
     >
       <div key='chart'>
         <WidgetContainer

@@ -36,7 +36,7 @@ const SalesChart: React.FC<Props> = ({ data }) => {
       legend: {
         position: 'top' as const,
         labels: {
-          color: '#888',
+          color: '#07557c',
         },
       },
     },
