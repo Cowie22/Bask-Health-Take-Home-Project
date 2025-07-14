@@ -99,6 +99,7 @@ export default function DashboardLayout() {
             ...defaultStyle,
             borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
           }}
+          childContainerClass='p-0'
         >
           {data && (
             <SummaryStats

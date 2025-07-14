@@ -7,9 +7,10 @@ type Props = {
   title: string
   children: React.ReactNode
   style: WidgetStyle
+  childContainerClass?: string
 }
 
-const WidgetContainer = ({ title, children, style }: Props) => {
+const WidgetContainer = ({ title, children, style, childContainerClass }: Props) => {
   const { bgColor, textColor, borderColor, borderRadius } = style
 
   return (
@@ -29,7 +30,7 @@ const WidgetContainer = ({ title, children, style }: Props) => {
         </p>
       </div>
 
-      <div className='px-3'>
+      <div className={childContainerClass ? childContainerClass : 'px-3'}>
         {children}
       </div>
       

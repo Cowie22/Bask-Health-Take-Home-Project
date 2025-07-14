@@ -27,7 +27,7 @@ const DashboardHeader = () => {
       <div className='container mx-auto flex items-center justify-between'>
         <h1 className='h3'>Dashboard</h1>
         <div className='flex items-center justify-between'>
-          <p className='h5 pr-2'>Last updated {elapsed}</p>
+          <p className='h5 mr-2'>Last updated {elapsed}</p>
           <button
             className='cta-btn white-btn mr-2'
             onClick={toggleAutoFetch}

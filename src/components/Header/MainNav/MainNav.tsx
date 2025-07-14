@@ -31,7 +31,7 @@ const MainNav = () => {
                 }`}
               />
             </button>
-            <p className='pl-2'>
+            <p className='ml-2'>
               Edit mode
             </p>
           </div>

@@ -42,7 +42,6 @@ h1,
   font-size: 39px;
   line-height: 44px;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 39px;
@@ -57,7 +56,6 @@ h1,
   line-height: 120%;
   font-weight: 400;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 39px;
@@ -72,7 +70,6 @@ h2,
   line-height: 120%;
   font-weight: 400;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 31px;
@@ -87,7 +84,6 @@ h3,
   line-height: 120%;
   font-weight: 400;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 25px;
@@ -102,7 +98,6 @@ h4,
   line-height: 120%;
   font-weight: 400;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 20px;
@@ -117,7 +112,6 @@ p,
   line-height: 120%;
   font-weight: 400;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 16px;
@@ -132,7 +126,6 @@ h5,
   line-height: 120%;
   font-weight: 400;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 13px;
@@ -147,7 +140,6 @@ h6,
   line-height: 120%;
   font-weight: 400;
   color: var(--neutral-1);
-  margin: 0;
 
   @media only screen and (max-width: 991px) {
     font-size: 10px;
