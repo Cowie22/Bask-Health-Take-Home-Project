@@ -3,7 +3,7 @@
 import React, { memo } from 'react'
 import { useAppContext } from '@/contexts/state'
 
-import ToggleThemeBtn from '@/components/ToggleThemeBtn/ToggleThemeBtn'
+import ToggleThemeBtn from '@/components/Header/ToggleThemeBtn/ToggleThemeBtn'
 
 const MainNav = () => {
   const { resetDashboard, editMode, toggleEditMode } = useAppContext()

@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import ToggleThemeBtn from '@/components/ToggleThemeBtn/ToggleThemeBtn'
+import ToggleThemeBtn from '@/components/Header/ToggleThemeBtn/ToggleThemeBtn'
 
 const MainNavMobile = () => {
   return (
