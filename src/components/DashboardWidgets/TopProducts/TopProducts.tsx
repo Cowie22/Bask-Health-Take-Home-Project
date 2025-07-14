@@ -1,6 +1,10 @@
 'use client'
 
 import React, { memo } from 'react'
+import { useAppContext } from '@/contexts/state'
+import '@/lib/chartSetup'
+import { Bar } from 'react-chartjs-2'
+import type { ChartOptions } from 'chart.js'
 
 interface Product {
   id: string
@@ -9,18 +13,63 @@ interface Product {
 }
 
 const TopProducts = ({ products }: { products: Product[] }) => {
+  const { isDark } = useAppContext()
+
+  const data = {
+    labels: products.map((product) => product.name),
+    datasets: [
+      {
+        label: 'Sales',
+        data: products.map((product) => product.sales),
+        backgroundColor: `${isDark ? '#1b94d1' : '#18709b'}`,
+        borderRadius: 4,
+        barPercentage: 0.5,
+      },
+    ],
+  }
+
+  const options: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: true },
+      tooltip: {
+        callbacks: {
+          label: (context: any) => `Sales: ${context.parsed.y}`,
+        },
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          // autoSkip: false,
+          stepSize: 50,
+          color: `${isDark ? '#1b94d1' : '#18709b'}`,
+        },
+        grid: {
+          color: `${isDark ? '#6b6f71' : '#d8dcde'}`,
+        },
+      },
+      x: {
+        ticks: {
+          color: `${isDark ? '#ebebeb' : '#181b1c'}`,
+        },
+        grid: {
+          display: false,
+        },
+      },
+    },
+    animation: {
+      duration: 1000,
+      easing: 'easeOutBounce'
+    }
+  }
+
   return (
-    <ul className='space-y-1'>
-      {products.map((p) => (
-        <li
-          key={p.id}
-          className='flex justify-between'
-        >
-          <span>{p.name}</span>
-          <span>{p.sales}</span>
-        </li>
-      ))}
-    </ul>
+    <div style={{ height: '260px' }}>
+      <Bar data={data} options={options} />
+    </div>
   )
 }
 

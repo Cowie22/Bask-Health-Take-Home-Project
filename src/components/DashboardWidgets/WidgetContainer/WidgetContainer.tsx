@@ -14,7 +14,7 @@ const WidgetContainer = ({ title, children, style }: Props) => {
 
   return (
     <div
-      className={`py-3 rounded-md shadow-md`}
+      className={`py-3 rounded-md shadow-md h-full`}
       style={{
         backgroundColor: bgColor,
         color: textColor,

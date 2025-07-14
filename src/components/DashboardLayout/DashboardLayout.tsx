@@ -80,8 +80,8 @@ export default function DashboardLayout() {
       className='layout'
       layout={layout}
       cols={3}
-      rowHeight={160}
-      width={1200}
+      rowHeight={330}
+      width={1280}
       margin={[16, 16]}
       onLayoutChange={editMode ? onLayoutChange : undefined}
       isResizable={editMode}
