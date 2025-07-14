@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useAppContext } from '@/contexts/state'
 import GridLayout from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
@@ -11,7 +12,10 @@ import SalesChart from '../DashboardWidgets/SalesChart/SalesChart'
 import EngagementChart from '../DashboardWidgets/EngagementChart/EngagementChart'
 import RecentTransactions from '../DashboardWidgets/RecentTransactions/RecentTransactions'
 import TopProducts from '../DashboardWidgets/TopProducts/TopProducts'
-import ActivityMap from '../DashboardWidgets/ActivityMap/ActivityMap'
+const ActivityMap = dynamic(
+  () => import('../DashboardWidgets/ActivityMap/ActivityMap'),
+  { ssr: false, loading: () => <p>Loading map...</p> }
+)
 
 import { fetchLiveData } from '@/lib/fetchData'
 
