@@ -34,11 +34,12 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
   const [currentPage, handleCurrentPage] = useState<string>('')
   const [isDark, setIsDark] = useState<boolean>(false)
   const [initialDashboard, setInitialDashboard] = useState<Array<object>>([
-    { i: 'chart', w: 1, h: 1, x: 0, y: 0 },
-    { i: 'engagement', w: 1, h: 1, x: 1, y: 2 },
-    { i: 'table', w: 1, h: 1, x: 2, y: 0 },
-    { i: 'products', w: 1, h: 1, x: 1, y: 0 },
-    { i: 'map', w: 3, h: 2, x: 0, y: 3 },
+    { i: 'summary',    w: 2, h: 1, x: 0, y: 0 },
+    { i: 'products',   w: 2, h: 1, x: 2, y: 0 },
+    { i: 'engagement', w: 2, h: 1, x: 4, y: 0 },
+    { i: 'chart',      w: 3, h: 1, x: 0, y: 1 },
+    { i: 'table',      w: 3, h: 1, x: 3, y: 1 },
+    { i: 'map',        w: 6, h: 2, x: 0, y: 2 },
   ])
   const [editMode, setEditMode] = useState<boolean>(false)
   const [lastUpdated, setLastUpdated] = useState<number | null>(null)
@@ -70,11 +71,12 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
   // Reset the dashboard layout to initial state, which is triggered in the header
   const resetDashboard = useCallback(() => {
     setInitialDashboard([
-      { i: 'chart', w: 1, h: 1, x: 0, y: 0 },
-      { i: 'engagement', w: 1, h: 1, x: 1, y: 2 },
-      { i: 'table', w: 1, h: 1, x: 2, y: 0 },
-      { i: 'products', w: 1, h: 1, x: 1, y: 0 },
-      { i: 'map', w: 3, h: 2, x: 0, y: 3 },
+      { i: 'summary',    w: 2, h: 1, x: 0, y: 0 },
+      { i: 'products',   w: 2, h: 1, x: 2, y: 0 },
+      { i: 'engagement', w: 2, h: 1, x: 4, y: 0 },
+      { i: 'chart',      w: 3, h: 1, x: 0, y: 1 },
+      { i: 'table',      w: 3, h: 1, x: 3, y: 1 },
+      { i: 'map',        w: 6, h: 2, x: 0, y: 2 },
     ])
     localStorage.removeItem('layout')
   }, [])

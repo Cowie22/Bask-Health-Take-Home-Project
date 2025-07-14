@@ -7,6 +7,7 @@ import GridLayout from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
+import SummaryStats from '../DashboardWidgets/SummaryStats/SummaryStats'
 import WidgetContainer from '../DashboardWidgets/WidgetContainer/WidgetContainer'
 import SalesChart from '../DashboardWidgets/SalesChart/SalesChart'
 import EngagementChart from '../DashboardWidgets/EngagementChart/EngagementChart'
@@ -73,13 +74,15 @@ export default function DashboardLayout() {
     localStorage.setItem('layout', JSON.stringify(newLayout))
   }
 
+  console.log('layout', layout)
+
   if (!layout) return null
 
   return (
     <GridLayout
       className='layout'
       layout={layout}
-      cols={3}
+      cols={6}
       rowHeight={330}
       width={1280}
       margin={[16, 16]}
@@ -89,6 +92,24 @@ export default function DashboardLayout() {
       compactType='vertical'
       draggableCancel='.leaflet-container'
     >
+      <div key='summary'>
+        <WidgetContainer
+          title='Summary Stats'
+          style={{
+            ...defaultStyle,
+            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+          }}
+        >
+          {data && (
+            <SummaryStats
+              salesData={data.charts.salesOverTime.data}
+              locations={data.map.locations}
+              products={data.tables.topProducts}
+            />
+          )}
+        </WidgetContainer>
+      </div>
+
       <div key='chart'>
         <WidgetContainer
           title='Sales Chart'
