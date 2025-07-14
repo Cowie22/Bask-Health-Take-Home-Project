@@ -9,7 +9,7 @@ const MainNav = () => {
   const { resetDashboard, editMode, toggleEditMode } = useAppContext()
 
   return (
-    <section className='p-3 bg-[var(--neutral-6)] border-[var(--neutral-4)] border-b'>
+    <section className='py-3 bg-[var(--neutral-6)] border-[var(--neutral-4)] border-b'>
       <div className='container mx-auto flex items-center justify-between'>
         <div className='flex items-center'>
           <button

@@ -19,18 +19,23 @@ const defaultStyle = {
   bgColor: 'var(--neutral-6)',
   textColor: 'var(--neutral-1)',
   borderColor: 'var(--neutral-4)',
+  borderColorEdit: 'var(--blue-1)',
   borderRadius: '8px',
 }
 
 export default function DashboardLayout() {
-  const { initialDashboard, editMode } = useAppContext()
+  const { initialDashboard, editMode, autoFetch, updateLastUpdated } =
+    useAppContext()
   const [data, setData] = useState<any>(null)
   const [layout, setLayout] = useState<any[] | null>(null)
 
   useEffect(() => {
+    let interval: NodeJS.Timeout
+
     const load = async () => {
       try {
         const result = await fetchLiveData()
+        updateLastUpdated()
         setData(result)
       } catch (err) {
         console.error('❌ Failed to fetch live data', err)
@@ -38,9 +43,17 @@ export default function DashboardLayout() {
     }
 
     load()
-    // const interval = setInterval(load, 5000)
-    // return () => clearInterval(interval)
-  }, [])
+
+    if (autoFetch) {
+      interval = setInterval(load, 5000)
+    }
+
+    return () => {
+      if (interval) {
+        clearInterval(interval)
+      }
+    }
+  }, [autoFetch, updateLastUpdated])
 
   useEffect(() => {
     const saved = localStorage.getItem('layout')
@@ -75,7 +88,10 @@ export default function DashboardLayout() {
       <div key='chart'>
         <WidgetContainer
           title='Sales Chart'
-          style={defaultStyle}
+          style={{
+            ...defaultStyle,
+            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+          }}
         >
           {data?.charts?.salesOverTime && (
             <SalesChart data={data.charts.salesOverTime} />
@@ -86,7 +102,10 @@ export default function DashboardLayout() {
       <div key='engagement'>
         <WidgetContainer
           title='User Engagement'
-          style={defaultStyle}
+          style={{
+            ...defaultStyle,
+            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+          }}
         >
           {data?.charts?.userEngagement && (
             <EngagementChart data={data.charts.userEngagement} />
@@ -97,7 +116,10 @@ export default function DashboardLayout() {
       <div key='table'>
         <WidgetContainer
           title='Recent Transactions'
-          style={defaultStyle}
+          style={{
+            ...defaultStyle,
+            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+          }}
         >
           {data?.tables?.recentTransactions && (
             <RecentTransactions transactions={data.tables.recentTransactions} />
@@ -108,7 +130,10 @@ export default function DashboardLayout() {
       <div key='products'>
         <WidgetContainer
           title='Top Products'
-          style={defaultStyle}
+          style={{
+            ...defaultStyle,
+            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+          }}
         >
           {data?.tables?.topProducts && (
             <TopProducts products={data.tables.topProducts} />
@@ -119,7 +144,10 @@ export default function DashboardLayout() {
       <div key='map'>
         <WidgetContainer
           title='Locations'
-          style={defaultStyle}
+          style={{
+            ...defaultStyle,
+            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+          }}
         >
           {data?.map?.locations && (
             <ActivityMap locations={data.map.locations} />

@@ -20,6 +20,7 @@ const WidgetContainer = ({ title, children, style }: Props) => {
         color: textColor,
         border: `1px solid ${borderColor}`,
         borderRadius: borderRadius,
+        transition: '0.5s all'
       }}
     >
       <div className='px-3 mb-3 border-b border-[var(--neutral-4)]'>

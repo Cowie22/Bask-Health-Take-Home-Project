@@ -249,6 +249,14 @@ sub {
   line-height: 120%;
   transition: all 0.5s;
   outline: none !important;
+  &.no-svg-margin {
+    svg {
+      margin-right: 0;
+    }
+  }
+  &.less-padding {
+    padding: 6px;
+  }
 
   &.btn-full {
     width: 100%;
@@ -278,7 +286,7 @@ sub {
   justify-content: center;
   align-items: center;
   svg {
-    margin-left: 8px;
+    margin-right: 8px;
     > * {
       fill: var(--neutral-1);
       transition: all 0.5s;
@@ -292,7 +300,6 @@ sub {
       > * {
         fill: var(--neutral-6);
         transition: all 0.5s;
-        transition-delay: 0.2s;
       }
     }
   }

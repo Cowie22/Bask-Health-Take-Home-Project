@@ -18,6 +18,10 @@ interface AppContextState {
   resetDashboard: () => void
   editMode: boolean
   toggleEditMode: () => void
+  lastUpdated: number | null
+  updateLastUpdated: () => void
+  autoFetch: boolean
+  toggleAutoFetch: () => void
 }
 
 const AppContext = createContext<AppContextState | undefined>(undefined)
@@ -37,6 +41,8 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
     { i: 'map', w: 3, h: 4, x: 0, y: 3 },
   ])
   const [editMode, setEditMode] = useState<boolean>(false)
+  const [lastUpdated, setLastUpdated] = useState<number | null>(null)
+  const [autoFetch, setAutoFetch] = useState<boolean>(true)
 
   // Handle the current page of the site
   const updateCurrentPage = useCallback((val: string) => {
@@ -78,6 +84,14 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
     setEditMode(prev => !prev)
   }, [])
 
+  const updateLastUpdated = useCallback(() => {
+    setLastUpdated(Date.now())
+  }, [])
+
+  const toggleAutoFetch = useCallback(() => {
+    setAutoFetch((prev) => !prev)
+  }, [])
+
   const sharedState: AppContextState = {
     currentPage,
     updateCurrentPage,
@@ -87,6 +101,10 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
     resetDashboard,
     editMode,
     toggleEditMode,
+    lastUpdated,
+    updateLastUpdated,
+    autoFetch,
+    toggleAutoFetch,
   }
 
   return (
