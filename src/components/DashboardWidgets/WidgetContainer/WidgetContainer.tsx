@@ -31,7 +31,7 @@ const WidgetContainer = ({
 
   return (
     <div
-      className={`pb-2 rounded-md shadow-md h-full`}
+      className={`pb-2 rounded-md shadow-md h-full overflow-hidden`}
       style={{
         backgroundColor: bgColor,
         color: textColor,

@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 @import './variables.css';
-@import 'leaflet/dist/leaflet.css';
 
 html {
   scroll-behavior: smooth;

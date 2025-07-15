@@ -189,7 +189,6 @@ export default function DashboardLayout() {
       isResizable={editMode}
       isDraggable={editMode}
       draggableHandle='.drag-handle'
-      draggableCancel='.leaflet-container'
       compactType='vertical'
       preventCollision={false}
       isBounded
