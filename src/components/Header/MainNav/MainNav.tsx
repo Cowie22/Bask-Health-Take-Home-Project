@@ -9,7 +9,7 @@ const MainNav = () => {
   const { resetDashboard, editMode, toggleEditMode } = useAppContext()
 
   return (
-    <section className='py-3 bg-[var(--neutral-6)] border-[var(--neutral-4)] border-b'>
+    <section className='py-3 bg-[var(--background)] border-b border-[var(--border-color)] text-[var(--foreground)]'>
       <div className='container mx-auto flex items-center justify-between'>
         <div className='flex items-center'>
           <button
@@ -21,19 +21,17 @@ const MainNav = () => {
           <div className='flex items-center'>
             <button
               onClick={toggleEditMode}
-              className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-300 focus:outline-none ${
-                editMode ? 'bg-[var(--blue-2)]' : 'bg-[var(--neutral-4)]'
+              className={`cursor-pointer relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-300 focus:outline-none ${
+                editMode ? 'bg-[var(--border-color-edit)]' : 'bg-[var(--border-color)]'
               }`}
             >
               <span
-                className={`inline-block w-4 h-4 transform bg-[var(--neutral-6)] rounded-full transition-transform duration-500 ${
+                className={`cursorinline-block w-4 h-4 transform bg-[var(--background)] rounded-full transition-transform duration-500 ${
                   editMode ? 'translate-x-6' : 'translate-x-1'
                 }`}
               />
             </button>
-            <p className='ml-2'>
-              Edit mode
-            </p>
+            <p className='ml-2 text-[var(--foreground)]'>Edit mode</p>
           </div>
         </div>
 

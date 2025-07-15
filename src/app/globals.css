@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background: var(--background);
+  background: var(--surface);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
@@ -228,7 +228,7 @@ sub {
 .cta-btn {
   position: relative;
   overflow: hidden;
-  color: var(--neutral-1);
+  color: var(--foreground);
   border: none;
   padding: 8px 12px;
   border-radius: 8px;
@@ -271,26 +271,27 @@ sub {
 }
 
 .white-btn {
-  background: var(--neutral-6);
-  color: var(--neutral-1);
-  border: 1px solid var(--neutral-4);
+  color: var(--foreground);
+  background-color: var(--background);
+  border: 1px solid var(--border-color);
   display: flex;
   justify-content: center;
   align-items: center;
   svg {
     margin-right: 8px;
     > * {
-      fill: var(--neutral-1);
+      fill: var(--foreground);
       transition: all 0.5s;
     }
   }
   &:hover {
-    background: var(--neutral-1);
-    color: var(--neutral-6);
+    background-color: var(--accent-color);
+    color: var(--background);
+    border-color: var(--accent-color);
 
     svg {
       > * {
-        fill: var(--neutral-6);
+        fill: var(--background);
         transition: all 0.5s;
       }
     }

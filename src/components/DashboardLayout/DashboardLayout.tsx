@@ -20,18 +20,10 @@ const ActivityMap = dynamic(
 
 import { fetchLiveData } from '@/lib/fetchData'
 
-const defaultStyle = {
-  bgColor: 'var(--neutral-6)',
-  textColor: 'var(--neutral-1)',
-  borderColor: 'var(--neutral-4)',
-  borderColorEdit: 'var(--blue-1)',
-  borderRadius: '8px',
-}
 const ResponsiveGridLayout = WidthProvider(Responsive)
 
 export default function DashboardLayout() {
-  const { initialDashboard, editMode, autoFetch, updateLastUpdated } =
-    useAppContext()
+  const { initialDashboard, editMode, autoFetch, updateLastUpdated, isDark } = useAppContext()
   const [data, setData] = useState<any>(null)
   const [layout, setLayout] = useState<any[] | null>(null)
 
@@ -84,20 +76,24 @@ export default function DashboardLayout() {
   if (!layout) return null
 
   const renderWidget = (widgetKey: string) => {
-    const style = {
-      ...defaultStyle,
-      borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+    const commonStyle = {
+      bgColor: 'var(--background)',
+      textColor: 'var(--foreground)',
+      borderColor: editMode
+        ? 'var(--border-color-edit)'
+        : 'var(--border-color)',
+      borderRadius: '8px',
     }
-
+  
+    const commonProps = {
+      style: commonStyle,
+      onDelete: () => handleDeleteWidget(widgetKey),
+    }
+  
     switch (widgetKey) {
       case 'summary':
         return (
-          <WidgetContainer
-            title='Summary Stats'
-            style={style}
-            childContainerClass='p-0'
-            onDelete={() => handleDeleteWidget(widgetKey)}
-          >
+          <WidgetContainer {...commonProps} title='Summary Stats' childContainerClass="p-0">
             {data && (
               <SummaryStats
                 salesData={data.charts.salesOverTime.data}
@@ -109,11 +105,7 @@ export default function DashboardLayout() {
         )
       case 'chart':
         return (
-          <WidgetContainer
-            title='Sales Chart'
-            style={style}
-            onDelete={() => handleDeleteWidget(widgetKey)}
-          >
+          <WidgetContainer {...commonProps} title='Sales Chart'>
             {data?.charts?.salesOverTime && (
               <SalesChart data={data.charts.salesOverTime} />
             )}
@@ -121,11 +113,7 @@ export default function DashboardLayout() {
         )
       case 'engagement':
         return (
-          <WidgetContainer
-            title='User Engagement'
-            style={style}
-            onDelete={() => handleDeleteWidget(widgetKey)}
-          >
+          <WidgetContainer {...commonProps} title='User Engagement'>
             {data?.charts?.userEngagement && (
               <EngagementChart data={data.charts.userEngagement} />
             )}
@@ -133,25 +121,15 @@ export default function DashboardLayout() {
         )
       case 'table':
         return (
-          <WidgetContainer
-            title='Recent Transactions'
-            style={style}
-            onDelete={() => handleDeleteWidget(widgetKey)}
-          >
+          <WidgetContainer {...commonProps} title='Recent Transactions'>
             {data?.tables?.recentTransactions && (
-              <RecentTransactions
-                transactions={data.tables.recentTransactions}
-              />
+              <RecentTransactions transactions={data.tables.recentTransactions} />
             )}
           </WidgetContainer>
         )
       case 'products':
         return (
-          <WidgetContainer
-            title='Top Products'
-            style={style}
-            onDelete={() => handleDeleteWidget(widgetKey)}
-          >
+          <WidgetContainer {...commonProps} title='Top Products'>
             {data?.tables?.topProducts && (
               <TopProducts products={data.tables.topProducts} />
             )}
@@ -159,11 +137,7 @@ export default function DashboardLayout() {
         )
       case 'map':
         return (
-          <WidgetContainer
-            title='Locations'
-            style={style}
-            onDelete={() => handleDeleteWidget(widgetKey)}
-          >
+          <WidgetContainer {...commonProps} title='Locations'>
             {data?.map?.locations && (
               <ActivityMap locations={data.map.locations} />
             )}
@@ -173,6 +147,7 @@ export default function DashboardLayout() {
         return null
     }
   }
+  
 
   return (
     <ResponsiveGridLayout
