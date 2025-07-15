@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { Map, Marker, Overlay } from 'pigeon-maps'
 import { LocationIcon } from '@shopify/polaris-icons'
 
@@ -13,12 +13,21 @@ interface Location {
 
 const ActivityMap = ({ locations }: { locations: Location[] }) => {
   const [selected, setSelected] = useState<Location | null>(null)
+  const [zoom, setZoom] = useState<number>(4)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const isMobile = window.innerWidth < 768
+      console.log('isMobile:', isMobile)
+      setZoom(isMobile ? 3 : 4)
+    }
+  }, [])
 
   return (
     <Map
       height={590}
       defaultCenter={[39.8283, -98.5795]}
-      defaultZoom={4}
+      zoom={zoom}
       onClick={() => setSelected(null)}
     >
       {locations.map((loc, idx) => (

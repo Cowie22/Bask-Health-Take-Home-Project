@@ -191,7 +191,7 @@ export default function DashboardLayout() {
       draggableHandle='.drag-handle'
       draggableCancel='.leaflet-container'
       compactType='vertical'
-      preventCollision
+      preventCollision={false}
       isBounded
       useCSSTransforms={false}
     >

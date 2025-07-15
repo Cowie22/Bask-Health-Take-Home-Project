@@ -61,8 +61,8 @@ const DashboardHeader = () => {
 
   return (
     <section className='py-3'>
-      <div className='container mx-auto flex items-center justify-between'>
-        <div className='flex items-center justify-between'>
+      <div className='container mx-auto px-4 flex items-center flex-col justify-start lg:justify-between lg:flex-row'>
+        <div className='w-full pb-4 flex items-center justify-between lg:w-fit lg:pb-0'>
           <h1 className='h3'>Dashboard</h1>
 
           {editMode && (
@@ -80,7 +80,7 @@ const DashboardHeader = () => {
               </button>
 
               {dropdownOpen && (
-                <ul className='absolute min-w-[250px] bg-[var(--background)] shadow-md rounded-md mt-2 p-2 border border-gray-300 text-sm'>
+                <ul className='absolute right-0 min-w-[250px] bg-[var(--background)] shadow-md rounded-md mt-2 p-2 border border-gray-300 text-sm lg:right-auto'>
                   {removedWidgets.length === 0 ? (
                     <li className='text-[var(--foreground)] px-3 py-2'>
                       All widgets are active
@@ -108,8 +108,8 @@ const DashboardHeader = () => {
             </div>
           )}
         </div>
-        <div className='flex items-center justify-between'>
-          <p className='h5 mr-2'>Last updated {elapsed}</p>
+        <div className='w-full flex items-center justify-between lg:w-fit'>
+          <p className='h5 mr-2'>Last updated <br className='d-block lg:hidden' /> {elapsed}</p>
           <button
             className='cta-btn white-btn mr-2'
             onClick={toggleAutoFetch}

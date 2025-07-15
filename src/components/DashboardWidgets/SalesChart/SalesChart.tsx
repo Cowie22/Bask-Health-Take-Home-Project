@@ -87,8 +87,13 @@ const SalesChart: React.FC<Props> = ({ data }) => {
           <XAxis
             dataKey='day'
             stroke={colors.tick}
+            interval='preserveStartEnd'
+            fontSize={11}
           />
-          <YAxis stroke={colors.tick} />
+          <YAxis
+            stroke={colors.tick}
+            fontSize={13}
+          />
           <Tooltip />
           <Area
             type='monotone'

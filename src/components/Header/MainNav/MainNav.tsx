@@ -10,7 +10,7 @@ const MainNav = () => {
 
   return (
     <section className='py-3 bg-[var(--background)] border-b border-[var(--border-color)] text-[var(--foreground)]'>
-      <div className='container mx-auto flex items-center justify-between'>
+      <div className='container mx-auto px-4 flex items-center justify-between'>
         <div className='flex items-center'>
           <button
             className='cta-btn white-btn mr-4'
@@ -31,7 +31,7 @@ const MainNav = () => {
                 }`}
               />
             </button>
-            <p className='ml-2 text-[var(--foreground)]'>Edit mode</p>
+            <p className='h5 ml-2 text-[var(--foreground)]'>Edit mode</p>
           </div>
         </div>
 
