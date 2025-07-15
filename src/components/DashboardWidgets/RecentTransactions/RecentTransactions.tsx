@@ -17,21 +17,21 @@ const RecentTransactions = ({
   return (
     <table className='w-full text-sm'>
       <thead>
-        <tr className='text-left border-b border-neutral-300'>
-          <th>User</th>
-          <th>Amount</th>
-          <th>Date</th>
+        <tr className='text-left border-b border-[var(--neutral-4)] flex justify-between w-full'>
+          <th className='w-full'>User</th>
+          <th className='text-center w-full'>Amount</th>
+          <th className='text-right w-full'>Date</th>
         </tr>
       </thead>
       <tbody>
         {transactions.map((t) => (
           <tr
             key={t.id}
-            className='border-b border-neutral-200'
+            className='border-b border-[var(--neutral-4)] flex justify-between w-full'
           >
-            <td>{t.user}</td>
-            <td>{t.amount}</td>
-            <td>{t.date}</td>
+            <td className='w-full'>{t.user}</td>
+            <td className='text-center w-full'>{t.amount}</td>
+            <td className='text-right w-full'>{t.date}</td>
           </tr>
         ))}
       </tbody>
