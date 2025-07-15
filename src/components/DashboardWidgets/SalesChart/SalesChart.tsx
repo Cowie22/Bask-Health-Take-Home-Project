@@ -1,8 +1,16 @@
 'use client'
 
 import React, { memo } from 'react'
-import '@/lib/chartSetup'
-import { Line } from 'react-chartjs-2'
+import { useAppContext } from '@/contexts/state'
+import {
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+} from 'recharts'
 
 interface Props {
   data: {
@@ -12,58 +20,66 @@ interface Props {
 }
 
 const SalesChart: React.FC<Props> = ({ data }) => {
-  const chartData = {
-    labels: data.labels,
-    datasets: [
-      {
-        label: 'Sales Over Time',
-        data: data.data,
-        borderColor: '#3b82f6',
-        backgroundColor: 'rgba(59,130,246,0.1)',
-        borderWidth: 2,
-        tension: 0.3,
-        fill: true,
-        pointRadius: 2,
-        pointHoverRadius: 4,
-      },
-    ],
-  }
+  const { isDark } = useAppContext()
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-        labels: {
-          color: '#07557c',
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: '#999',
-        },
-        grid: {
-          color: 'rgba(0,0,0,0.05)',
-        },
-      },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          color: '#999',
-        },
-        grid: {
-          color: 'rgba(0,0,0,0.05)',
-        },
-      },
-    },
-  }
+  // Combine labels and data into one array of objects
+  const chartData = data.labels.map((label, i) => ({
+    day: label,
+    sales: data.data[i],
+  }))
+
+  const gradientId = 'colorSales'
 
   return (
     <div className='w-full h-64'>
-      <Line data={chartData} options={options} />
+      <ResponsiveContainer
+        width='100%'
+        height='100%'
+      >
+        <AreaChart
+          data={chartData}
+          margin={{ top: 20, right: 10, left: -20, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient
+              id={gradientId}
+              x1='0'
+              y1='0'
+              x2='0'
+              y2='1'
+            >
+              <stop
+                offset='20%'
+                stopColor={isDark ? '#1b94d1' : '#18709b'}
+                stopOpacity={0.8}
+              />
+              <stop
+                offset='95%'
+                stopColor={isDark ? '#1b94d1' : '#18709b'}
+                stopOpacity={0}
+              />
+            </linearGradient>
+          </defs>
+          <CartesianGrid
+            strokeDasharray='2 2'
+            stroke={isDark ? '#ebebeb20' : '#181b1c20'}
+          />
+          <XAxis
+            dataKey='day'
+            stroke={isDark ? '#0d72a5' : '#07557c'}
+          />
+          <YAxis stroke={isDark ? '#0d72a5' : '#07557c'} />
+          <Tooltip />
+          <Area
+            type='monotone'
+            dataKey='sales'
+            stroke={isDark ? '#1b94d1' : '#18709b'}
+            fill={`url(#${gradientId})`}
+            strokeWidth={2}
+            dot={false}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { useAppContext } from '@/contexts/state'
-import GridLayout from 'react-grid-layout'
+import GridLayout, { Responsive, WidthProvider } from 'react-grid-layout'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
@@ -27,6 +27,7 @@ const defaultStyle = {
   borderColorEdit: 'var(--blue-1)',
   borderRadius: '8px',
 }
+const ResponsiveGridLayout = WidthProvider(Responsive)
 
 export default function DashboardLayout() {
   const { initialDashboard, editMode, autoFetch, updateLastUpdated } =
@@ -69,117 +70,131 @@ export default function DashboardLayout() {
     }
   }, [initialDashboard])
 
+  // Saves the layout in localStorage when it changes, so the user
+  // Returns to the same dashboard layout next time they visit
   const onLayoutChange = (newLayout: any[]) => {
     setLayout(newLayout)
     localStorage.setItem('layout', JSON.stringify(newLayout))
   }
 
-  console.log('layout', layout)
+  const handleDeleteWidget = (key: string) => {
+    setLayout((prev) => prev?.filter((widget) => widget.i !== key) || [])
+  }
 
   if (!layout) return null
 
+  const renderWidget = (widgetKey: string) => {
+    const style = {
+      ...defaultStyle,
+      borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
+    }
+
+    switch (widgetKey) {
+      case 'summary':
+        return (
+          <WidgetContainer
+            title='Summary Stats'
+            style={style}
+            childContainerClass='p-0'
+            onDelete={() => handleDeleteWidget(widgetKey)}
+          >
+            {data && (
+              <SummaryStats
+                salesData={data.charts.salesOverTime.data}
+                locations={data.map.locations}
+                products={data.tables.topProducts}
+              />
+            )}
+          </WidgetContainer>
+        )
+      case 'chart':
+        return (
+          <WidgetContainer
+            title='Sales Chart'
+            style={style}
+            onDelete={() => handleDeleteWidget(widgetKey)}
+          >
+            {data?.charts?.salesOverTime && (
+              <SalesChart data={data.charts.salesOverTime} />
+            )}
+          </WidgetContainer>
+        )
+      case 'engagement':
+        return (
+          <WidgetContainer
+            title='User Engagement'
+            style={style}
+            onDelete={() => handleDeleteWidget(widgetKey)}
+          >
+            {data?.charts?.userEngagement && (
+              <EngagementChart data={data.charts.userEngagement} />
+            )}
+          </WidgetContainer>
+        )
+      case 'table':
+        return (
+          <WidgetContainer
+            title='Recent Transactions'
+            style={style}
+            onDelete={() => handleDeleteWidget(widgetKey)}
+          >
+            {data?.tables?.recentTransactions && (
+              <RecentTransactions
+                transactions={data.tables.recentTransactions}
+              />
+            )}
+          </WidgetContainer>
+        )
+      case 'products':
+        return (
+          <WidgetContainer
+            title='Top Products'
+            style={style}
+            onDelete={() => handleDeleteWidget(widgetKey)}
+          >
+            {data?.tables?.topProducts && (
+              <TopProducts products={data.tables.topProducts} />
+            )}
+          </WidgetContainer>
+        )
+      case 'map':
+        return (
+          <WidgetContainer
+            title='Locations'
+            style={style}
+            onDelete={() => handleDeleteWidget(widgetKey)}
+          >
+            {data?.map?.locations && (
+              <ActivityMap locations={data.map.locations} />
+            )}
+          </WidgetContainer>
+        )
+      default:
+        return null
+    }
+  }
+
   return (
-    <GridLayout
+    <ResponsiveGridLayout
       className='layout'
-      layout={layout}
-      cols={6}
+      layouts={{ lg: layout }}
+      cols={{ lg: 6, md: 3, sm: 1 }}
+      breakpoints={{ lg: 1200, md: 996, sm: 768 }}
       rowHeight={330}
-      width={1280}
       margin={[16, 16]}
       onLayoutChange={editMode ? onLayoutChange : undefined}
       isResizable={editMode}
       isDraggable={editMode}
-      compactType='vertical'
+      draggableHandle='.drag-handle'
       draggableCancel='.leaflet-container'
+      compactType='vertical'
+      preventCollision
+      isBounded
+      useCSSTransforms={false}
     >
-      <div key='summary'>
-        <WidgetContainer
-          title='Summary Stats'
-          style={{
-            ...defaultStyle,
-            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
-          }}
-          childContainerClass='p-0'
-        >
-          {data && (
-            <SummaryStats
-              salesData={data.charts.salesOverTime.data}
-              locations={data.map.locations}
-              products={data.tables.topProducts}
-            />
-          )}
-        </WidgetContainer>
-      </div>
-
-      <div key='chart'>
-        <WidgetContainer
-          title='Sales Chart'
-          style={{
-            ...defaultStyle,
-            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
-          }}
-        >
-          {data?.charts?.salesOverTime && (
-            <SalesChart data={data.charts.salesOverTime} />
-          )}
-        </WidgetContainer>
-      </div>
-
-      <div key='engagement'>
-        <WidgetContainer
-          title='User Engagement'
-          style={{
-            ...defaultStyle,
-            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
-          }}
-        >
-          {data?.charts?.userEngagement && (
-            <EngagementChart data={data.charts.userEngagement} />
-          )}
-        </WidgetContainer>
-      </div>
-
-      <div key='table'>
-        <WidgetContainer
-          title='Recent Transactions'
-          style={{
-            ...defaultStyle,
-            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
-          }}
-        >
-          {data?.tables?.recentTransactions && (
-            <RecentTransactions transactions={data.tables.recentTransactions} />
-          )}
-        </WidgetContainer>
-      </div>
-
-      <div key='products'>
-        <WidgetContainer
-          title='Top Products'
-          style={{
-            ...defaultStyle,
-            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
-          }}
-        >
-          {data?.tables?.topProducts && (
-            <TopProducts products={data.tables.topProducts} />
-          )}
-        </WidgetContainer>
-      </div>
-
-      <div key='map'>
-        <WidgetContainer
-          title='Locations'
-          style={{
-            ...defaultStyle,
-            borderColor: editMode ? 'var(--blue-3)' : defaultStyle.borderColor,
-          }}
-        >
-          {data?.map?.locations && (
-            <ActivityMap locations={data.map.locations} />
-          )}
-        </WidgetContainer>
-      </div>
-    </GridLayout>
+      {layout.map((widget) => (
+        <div key={widget.i}>{renderWidget(widget.i)}</div>
+      ))}
+    </ResponsiveGridLayout>
   )
 }

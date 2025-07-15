@@ -21,7 +21,7 @@ const TopProducts = ({ products }: { products: Product[] }) => {
       {
         label: 'Sales',
         data: products.map((product) => product.sales),
-        backgroundColor: `${isDark ? '#1b94d1' : '#18709b'}`,
+        backgroundColor: isDark ? '#1b94d1' : '#18709b',
         borderRadius: 4,
         barPercentage: 0.5,
       },
@@ -45,15 +45,15 @@ const TopProducts = ({ products }: { products: Product[] }) => {
         ticks: {
           // autoSkip: false,
           stepSize: 50,
-          color: `${isDark ? '#1b94d1' : '#18709b'}`,
+          color: isDark ? '#0d72a5' : '#07557c',
         },
         grid: {
-          color: `${isDark ? '#6b6f71' : '#d8dcde'}`,
+          color: isDark ? '#6b6f7180' : '#d8dcde80',
         },
       },
       x: {
         ticks: {
-          color: `${isDark ? '#ebebeb' : '#181b1c'}`,
+          color: isDark ? '#0d72a5' : '#07557c',
         },
         grid: {
           display: false,
