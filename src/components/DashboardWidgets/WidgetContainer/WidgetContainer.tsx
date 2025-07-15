@@ -6,12 +6,17 @@ import { useAppContext } from '@/contexts/state'
 import { WidgetStyle } from '@/types'
 import { DragHandleIcon, XIcon } from '@shopify/polaris-icons'
 
+type WidgetContainerStyle = Pick<
+  WidgetStyle,
+  'bgColor' | 'textColor' | 'borderColor' | 'borderRadius'
+>
+
 type Props = {
   title: string
   children: React.ReactNode
-  style: WidgetStyle
-  childContainerClass?: string
+  style: WidgetContainerStyle
   onDelete?: () => void
+  childContainerClass?: string
 }
 
 const WidgetContainer = ({
@@ -44,7 +49,7 @@ const WidgetContainer = ({
           )}
           <p className='bold py-2'>{title}</p>
         </div>
-        
+
         <div>
           {editMode && (
             <button

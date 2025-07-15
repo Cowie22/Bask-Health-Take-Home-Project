@@ -1,8 +1,8 @@
 'use client'
 
-import React, { memo, useEffect } from 'react'
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
-import { Icon, LatLngTuple } from 'leaflet'
+import React, { memo, useState } from 'react'
+import { Map, Marker, Overlay } from 'pigeon-maps'
+import { LocationIcon } from '@shopify/polaris-icons'
 
 interface Location {
   latitude: number
@@ -11,55 +11,47 @@ interface Location {
   activity: number
 }
 
-const markerIcon = new Icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-})
-
 const ActivityMap = ({ locations }: { locations: Location[] }) => {
-  const center: LatLngTuple = [39.8283, -98.5795]
-
-  const MapAutoResize = () => {
-    const map = useMap()
-
-    useEffect(() => {
-      map.invalidateSize()
-    }, [map])
-
-    return null
-  }
+  const [selected, setSelected] = useState<Location | null>(null)
 
   return (
-    <MapContainer
-      center={center}
-      zoom={4}
-      scrollWheelZoom={false}
-      style={{ height: '590px', width: '100%', borderRadius: '8px' }}
+    <Map
+      height={590}
+      defaultCenter={[39.8283, -98.5795]}
+      defaultZoom={4}
+      onClick={() => setSelected(null)}
     >
-      <MapAutoResize />
-      <TileLayer
-        url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-      />
-      {locations.map((location, i) => {
-        const { latitude, longitude, label, activity } = location
-        return (
-          <Marker
-            key={i}
-            position={[latitude, longitude]}
-            icon={markerIcon}
+      {locations.map((loc, idx) => (
+        <Marker
+          key={idx}
+          width={40}
+          anchor={[loc.latitude, loc.longitude]}
+          onClick={() => {
+            setSelected(loc)
+          }}
+        >
+          {/* This div ensures pointer events are enabled */}
+          <div
+            style={{ cursor: 'pointer', pointerEvents: 'auto' }}
+            className='flex items-center justify-center'
           >
-            <Popup>
-              <strong>{label}</strong>
-              <br />
-              Activity: {activity}
-            </Popup>
-          </Marker>
-        )
-      })}
-    </MapContainer>
+            <LocationIcon className='w-10 h-10' />
+          </div>
+        </Marker>
+      ))}
+
+      {selected && (
+        <Overlay
+          anchor={[selected.latitude, selected.longitude]}
+          offset={[0, 40]}
+        >
+          <div className='bg-[var(--background)] shadow-lg rounded p-2 text-sm border border-[var(--borderColor)] z-50'>
+            <p className='font-semibold'>{selected.label}</p>
+            <p>Activity: {selected.activity}</p>
+          </div>
+        </Overlay>
+      )}
+    </Map>
   )
 }
 

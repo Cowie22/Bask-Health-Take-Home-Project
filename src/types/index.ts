@@ -9,9 +9,19 @@ export type WidgetLayout = {
   h: number
 }
 
-export type WidgetStyle = {
+export interface WidgetStyle {
   bgColor: string
   textColor: string
   borderColor: string
+  borderColorEdit: string
   borderRadius: string
+  accentColor: string
+}
+
+export interface LayoutItem {
+  i: string
+  w: number
+  h: number
+  x: number
+  y: number
 }

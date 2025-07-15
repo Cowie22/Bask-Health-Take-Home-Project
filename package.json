@@ -13,6 +13,8 @@
     "chart.js": "^4.5.0",
     "leaflet": "^1.9.4",
     "next": "15.3.5",
+    "pigeon-maps": "^0.22.1",
+    "pigeon-marker": "^0.3.4",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",

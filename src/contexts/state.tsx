@@ -9,14 +9,7 @@ import React, {
   ReactNode,
 } from 'react'
 
-interface WidgetStyle {
-  bgColor: string
-  textColor: string
-  borderColor: string
-  borderColorEdit: string
-  borderRadius: string
-  accentColor: string
-}
+import { LayoutItem, WidgetStyle } from '@/types'
 
 interface ThemeStyles {
   light: WidgetStyle
@@ -28,7 +21,10 @@ interface AppContextState {
   updateCurrentPage: (val: string) => void
   isDark: boolean
   toggleTheme: () => void
-  initialDashboard: Array<object>
+  layout: LayoutItem[]
+  setLayout: (layout: LayoutItem[]) => void
+  activeWidgets: string[]
+  setActiveWidgets: (keys: string[]) => void
   resetDashboard: () => void
   editMode: boolean
   toggleEditMode: () => void
@@ -38,25 +34,32 @@ interface AppContextState {
   toggleAutoFetch: () => void
   themeStyles: ThemeStyles | null
   setThemeStyles: (styles: ThemeStyles) => void
+  removeWidget: (key: string) => void
+  restoreWidget: (key: string) => void
 }
 
 const AppContext = createContext<AppContextState | undefined>(undefined)
+
+const defaultLayout: LayoutItem[] = [
+  { i: 'summary', w: 2, h: 1, x: 0, y: 0 },
+  { i: 'products', w: 2, h: 1, x: 2, y: 0 },
+  { i: 'engagement', w: 2, h: 1, x: 4, y: 0 },
+  { i: 'chart', w: 3, h: 1, x: 0, y: 1 },
+  { i: 'table', w: 3, h: 1, x: 3, y: 1 },
+  { i: 'map', w: 6, h: 2, x: 0, y: 2 },
+]
+
+const allWidgetKeys = defaultLayout.map((widget) => widget.i)
 
 interface AppWrapperProps {
   children: ReactNode
 }
 
 const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
-  const [currentPage, handleCurrentPage] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState<string>('')
   const [isDark, setIsDark] = useState<boolean>(false)
-  const [initialDashboard, setInitialDashboard] = useState<Array<object>>([
-    { i: 'summary', w: 2, h: 1, x: 0, y: 0 },
-    { i: 'products', w: 2, h: 1, x: 2, y: 0 },
-    { i: 'engagement', w: 2, h: 1, x: 4, y: 0 },
-    { i: 'chart', w: 3, h: 1, x: 0, y: 1 },
-    { i: 'table', w: 3, h: 1, x: 3, y: 1 },
-    { i: 'map', w: 6, h: 2, x: 0, y: 2 },
-  ])
+  const [layout, setLayout] = useState<LayoutItem[]>(defaultLayout)
+  const [activeWidgets, setActiveWidgets] = useState<string[]>(allWidgetKeys)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [lastUpdated, setLastUpdated] = useState<number | null>(null)
   const [autoFetch, setAutoFetch] = useState<boolean>(true)
@@ -64,7 +67,62 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
 
   // Handle the current page of the site
   const updateCurrentPage = useCallback((val: string) => {
-    handleCurrentPage(val)
+    setCurrentPage(val)
+  }, [])
+
+  // Load layout and activeWidgets from localStorage on mount
+  useEffect(() => {
+    const savedLayout = localStorage.getItem('layout')
+    if (savedLayout) {
+      try {
+        setLayout(JSON.parse(savedLayout))
+      } catch {}
+    }
+    const savedActiveWidgets = localStorage.getItem('activeWidgets')
+    if (savedActiveWidgets) {
+      try {
+        setActiveWidgets(JSON.parse(savedActiveWidgets))
+      } catch {}
+    }
+  }, [])
+
+  // Save layout to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('layout', JSON.stringify(layout))
+  }, [layout])
+
+  // Save activeWidgets to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('activeWidgets', JSON.stringify(activeWidgets))
+  }, [activeWidgets])
+
+  // Reset dashboard to default layout and all widgets active
+  const resetDashboard = useCallback(() => {
+    setLayout(defaultLayout)
+    setActiveWidgets(allWidgetKeys)
+    localStorage.removeItem('layout')
+    localStorage.removeItem('activeWidgets')
+  }, [])
+
+  // Remove widget key from activeWidgets only (hide widget)
+  const removeWidget = useCallback((key: string) => {
+    setActiveWidgets((prev) => prev.filter((widgetKey) => widgetKey !== key))
+  }, [])
+
+  // Add widget key back to activeWidgets (show widget)
+  const restoreWidget = useCallback((key: string) => {
+    setActiveWidgets((prev) => {
+      if (prev.includes(key)) return prev
+      return [...prev, key]
+    })
+  
+    setLayout((prevLayout) => {
+      if (prevLayout.some((item) => item.i === key)) {
+        return prevLayout
+      }
+      const widget = defaultLayout.find((w) => w.i === key)
+      return widget ? [...prevLayout, widget] : prevLayout
+    })
   }, [])
 
   // Load persisted theme from localStorage on mount
@@ -83,19 +141,6 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
 
   const toggleTheme = useCallback(() => {
     setIsDark((prev) => !prev)
-  }, [])
-
-  // Reset the dashboard layout to initial state, which is triggered in the header
-  const resetDashboard = useCallback(() => {
-    setInitialDashboard([
-      { i: 'summary', w: 2, h: 1, x: 0, y: 0 },
-      { i: 'products', w: 2, h: 1, x: 2, y: 0 },
-      { i: 'engagement', w: 2, h: 1, x: 4, y: 0 },
-      { i: 'chart', w: 3, h: 1, x: 0, y: 1 },
-      { i: 'table', w: 3, h: 1, x: 3, y: 1 },
-      { i: 'map', w: 6, h: 2, x: 0, y: 2 },
-    ])
-    localStorage.removeItem('layout')
   }, [])
 
   // Toggle edit mode for the dashboard layout, which is triggered in the header
@@ -160,7 +205,10 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
     updateCurrentPage,
     isDark,
     toggleTheme,
-    initialDashboard,
+    layout,
+    setLayout,
+    activeWidgets,
+    setActiveWidgets,
     resetDashboard,
     editMode,
     toggleEditMode,
@@ -170,6 +218,8 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
     toggleAutoFetch,
     themeStyles,
     setThemeStyles,
+    removeWidget,
+    restoreWidget,
   }
 
   return (

@@ -1,11 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { useAppContext } from '@/contexts/state'
-import { PlayIcon, PauseCircleIcon, ReplayIcon } from '@shopify/polaris-icons'
+import {
+  PlayIcon,
+  PauseCircleIcon,
+  ReplayIcon,
+  CaretDownIcon,
+} from '@shopify/polaris-icons'
+
+const allWidgetKeys = [
+  'summary',
+  'products',
+  'engagement',
+  'chart',
+  'table',
+  'map',
+]
 
 const DashboardHeader = () => {
-  const { lastUpdated, toggleAutoFetch, autoFetch, updateLastUpdated } =
-    useAppContext()
+  const {
+    lastUpdated,
+    toggleAutoFetch,
+    autoFetch,
+    activeWidgets,
+    restoreWidget,
+    editMode,
+  } = useAppContext()
   const [elapsed, setElapsed] = useState('')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,10 +43,61 @@ const DashboardHeader = () => {
     return () => clearInterval(interval)
   }, [lastUpdated])
 
+  const removedWidgets = allWidgetKeys.filter((key) => !activeWidgets.includes(key))
+
+  const formatWidgetName = (key: string) => {
+    const map: Record<string, string> = {
+      summary: 'Summary Stats',
+      chart: 'Sales Chart',
+      engagement: 'User Engagement',
+      table: 'Recent Transactions',
+      products: 'Top Products',
+      map: 'Activity Map',
+    }
+    return map[key] || key
+  }
+
   return (
     <section className='py-3'>
       <div className='container mx-auto flex items-center justify-between'>
-        <h1 className='h3'>Dashboard</h1>
+        <div className='flex items-center justify-between'>
+          <h1 className='h3'>Dashboard</h1>
+
+          {editMode && (
+            <div className='relative z-10 ml-4'>
+              <button
+                className='cta-btn white-btn reverse-svg flex items-center'
+                onClick={() => setDropdownOpen(prev => !prev)}
+              >
+                Add Widget <CaretDownIcon className={`w-4 h-4 transition-transform duration-500 ${dropdownOpen ? 'rotate-180' : 'rotate-0'}`} />
+              </button>
+
+              {dropdownOpen && (
+                <ul className='absolute bg-[var(--background)] shadow-md rounded-md mt-2 p-2'>
+                  {removedWidgets.length === 0 ? (
+                    <li className='text-[var(--foreground)] px-2 py-1'>
+                      All widgets are active
+                    </li>
+                  ) : (
+                    removedWidgets.map((key) => (
+                      <li key={key}>
+                        <button
+                          className='hover:bg-[var(--accent-color)] px-2 py-1 w-full text-left cursor-pointer transition-all duration-500'
+                          onClick={() => {
+                            restoreWidget(key)
+                            setDropdownOpen(false)
+                          }}
+                        >
+                          Add {formatWidgetName(key)}
+                        </button>
+                      </li>
+                    ))
+                  )}
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
         <div className='flex items-center justify-between'>
           <p className='h5 mr-2'>Last updated {elapsed}</p>
           <button
