@@ -63,7 +63,7 @@ const DashboardHeader = () => {
     <section className='py-3'>
       <div className='container mx-auto px-4 flex items-center flex-col justify-start lg:justify-between lg:flex-row'>
         <div className='w-full pb-4 flex items-center justify-between lg:w-fit lg:pb-0'>
-          <h1 className='h3'>Dash</h1>
+          <h1 className='h3'>Dashboard</h1>
 
           {editMode && (
             <div className='relative z-10 ml-4'>
