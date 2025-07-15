@@ -41,14 +41,13 @@ interface AppContextState {
 const AppContext = createContext<AppContextState | undefined>(undefined)
 
 const defaultLayout: LayoutItem[] = [
-  { i: 'summary', w: 2, h: 1, x: 0, y: 0 },
-  { i: 'products', w: 2, h: 1, x: 2, y: 0 },
+  { i: 'summary',    w: 2, h: 1, x: 0, y: 0 },
+  { i: 'products',   w: 2, h: 1, x: 2, y: 0 },
   { i: 'engagement', w: 2, h: 1, x: 4, y: 0 },
-  { i: 'chart', w: 3, h: 1, x: 0, y: 1 },
-  { i: 'table', w: 3, h: 1, x: 3, y: 1 },
-  { i: 'map', w: 6, h: 2, x: 0, y: 2 },
+  { i: 'chart',      w: 3, h: 1, x: 0, y: 1 },
+  { i: 'table',      w: 3, h: 1, x: 3, y: 1 },
+  { i: 'map',        w: 6, h: 2, x: 0, y: 2 },
 ]
-
 const allWidgetKeys = defaultLayout.map((widget) => widget.i)
 
 interface AppWrapperProps {
@@ -72,20 +71,25 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
 
   // Load layout and activeWidgets from localStorage on mount
   useEffect(() => {
-    const savedLayout = localStorage.getItem('layout')
-    if (savedLayout) {
-      try {
+    try {
+      const savedLayout = localStorage.getItem('layout')
+      if (savedLayout) {
         setLayout(JSON.parse(savedLayout))
-      } catch {}
+      }
+    } catch (err) {
+      console.warn('Failed to parse saved layout from localStorage:', err)
     }
-    const savedActiveWidgets = localStorage.getItem('activeWidgets')
-    if (savedActiveWidgets) {
-      try {
+  
+    try {
+      const savedActiveWidgets = localStorage.getItem('activeWidgets')
+      if (savedActiveWidgets) {
         setActiveWidgets(JSON.parse(savedActiveWidgets))
-      } catch {}
+      }
+    } catch (err) {
+      console.warn('Failed to parse saved activeWidgets from localStorage:', err)
     }
   }, [])
-
+  
   // Save layout to localStorage when it changes
   useEffect(() => {
     localStorage.setItem('layout', JSON.stringify(layout))
@@ -120,7 +124,7 @@ const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
       if (prevLayout.some((item) => item.i === key)) {
         return prevLayout
       }
-      const widget = defaultLayout.find((w) => w.i === key)
+      const widget = defaultLayout.find((wid) => wid.i === key)
       return widget ? [...prevLayout, widget] : prevLayout
     })
   }, [])

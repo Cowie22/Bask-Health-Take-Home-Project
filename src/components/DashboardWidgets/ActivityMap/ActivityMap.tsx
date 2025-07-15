@@ -30,7 +30,6 @@ const ActivityMap = ({ locations }: { locations: Location[] }) => {
             setSelected(loc)
           }}
         >
-          {/* This div ensures pointer events are enabled */}
           <div
             style={{ cursor: 'pointer', pointerEvents: 'auto' }}
             className='flex items-center justify-center'

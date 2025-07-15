@@ -43,7 +43,9 @@ const DashboardHeader = () => {
     return () => clearInterval(interval)
   }, [lastUpdated])
 
-  const removedWidgets = allWidgetKeys.filter((key) => !activeWidgets.includes(key))
+  const removedWidgets = allWidgetKeys.filter(
+    (key) => !activeWidgets.includes(key)
+  )
 
   const formatWidgetName = (key: string) => {
     const map: Record<string, string> = {
@@ -67,22 +69,30 @@ const DashboardHeader = () => {
             <div className='relative z-10 ml-4'>
               <button
                 className='cta-btn white-btn reverse-svg flex items-center'
-                onClick={() => setDropdownOpen(prev => !prev)}
+                onClick={() => setDropdownOpen((prev) => !prev)}
               >
-                Add Widget <CaretDownIcon className={`w-4 h-4 transition-transform duration-500 ${dropdownOpen ? 'rotate-180' : 'rotate-0'}`} />
+                Add Widget{' '}
+                <CaretDownIcon
+                  className={`w-4 h-4 transition-transform duration-500 ${
+                    dropdownOpen ? 'rotate-180' : 'rotate-0'
+                  }`}
+                />
               </button>
 
               {dropdownOpen && (
-                <ul className='absolute bg-[var(--background)] shadow-md rounded-md mt-2 p-2'>
+                <ul className='absolute min-w-[250px] bg-[var(--background)] shadow-md rounded-md mt-2 p-2 border border-gray-300 text-sm'>
                   {removedWidgets.length === 0 ? (
-                    <li className='text-[var(--foreground)] px-2 py-1'>
+                    <li className='text-[var(--foreground)] px-3 py-2'>
                       All widgets are active
                     </li>
                   ) : (
                     removedWidgets.map((key) => (
-                      <li key={key}>
+                      <li
+                        key={key}
+                        className='border-b last:border-b-0 border-gray-200'
+                      >
                         <button
-                          className='hover:bg-[var(--accent-color)] px-2 py-1 w-full text-left cursor-pointer transition-all duration-500'
+                          className='hover:bg-[var(--accent-color)] px-3 py-2 w-full text-left cursor-pointer transition-all duration-300 whitespace-nowrap'
                           onClick={() => {
                             restoreWidget(key)
                             setDropdownOpen(false)
