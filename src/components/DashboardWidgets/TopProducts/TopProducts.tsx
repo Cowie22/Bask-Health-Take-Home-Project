@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAppContext } from '@/contexts/state'
 import '@/lib/chartSetup'
 import { Bar } from 'react-chartjs-2'
@@ -14,6 +14,25 @@ interface Product {
 
 const TopProducts = ({ products }: { products: Product[] }) => {
   const { isDark } = useAppContext()
+  const [colors, setColors] = useState({
+    accent: '#18709b',
+    tick: '#07557c',
+    grid: '#d8dcde80',
+  })
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const root = getComputedStyle(document.documentElement)
+      setColors({
+        accent: root.getPropertyValue('--accent-color').trim() || '#18709b',
+        tick: root.getPropertyValue('--accent-color').trim() + '99' || '#07557c',
+        grid:
+          root.getPropertyValue('--border-color').trim() + '80' || '#d8dcde80',
+      })
+    }, 50)
+
+    return () => clearTimeout(timeout)
+  }, [isDark])
 
   const data = {
     labels: products.map((product) => product.name),
@@ -21,7 +40,7 @@ const TopProducts = ({ products }: { products: Product[] }) => {
       {
         label: 'Sales',
         data: products.map((product) => product.sales),
-        backgroundColor: isDark ? '#1b94d1' : '#18709b',
+        backgroundColor: colors.accent,
         borderRadius: 4,
         barPercentage: 0.5,
       },
@@ -45,15 +64,15 @@ const TopProducts = ({ products }: { products: Product[] }) => {
         ticks: {
           // autoSkip: false,
           stepSize: 50,
-          color: isDark ? '#0d72a5' : '#07557c',
+          color: colors.tick,
         },
         grid: {
-          color: isDark ? '#6b6f7180' : '#d8dcde80',
+          color: colors.grid,
         },
       },
       x: {
         ticks: {
-          color: isDark ? '#0d72a5' : '#07557c',
+          color: colors.tick,
         },
         grid: {
           display: false,
@@ -62,15 +81,18 @@ const TopProducts = ({ products }: { products: Product[] }) => {
     },
     animation: {
       duration: 1000,
-      easing: 'easeOutBounce'
-    }
+      easing: 'easeOutBounce',
+    },
   }
 
   return (
     <div style={{ height: '260px' }}>
-      <Bar data={data} options={options} />
+      <Bar
+        data={data}
+        options={options}
+      />
     </div>
   )
 }
 
-export default memo(TopProducts)
+export default TopProducts

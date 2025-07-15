@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAppContext } from '@/contexts/state'
 import {
   ResponsiveContainer,
@@ -21,6 +21,26 @@ interface Props {
 
 const SalesChart: React.FC<Props> = ({ data }) => {
   const { isDark } = useAppContext()
+  const [colors, setColors] = useState({
+    accent: '#18709b',
+    tick: '#07557c',
+    grid: '#d8dcde80',
+  })
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const root = getComputedStyle(document.documentElement)
+      setColors({
+        accent: root.getPropertyValue('--accent-color').trim() || '#18709b',
+        tick:
+          root.getPropertyValue('--accent-color').trim() + '99' || '#07557c',
+        grid:
+          root.getPropertyValue('--border-color').trim() + '80' || '#d8dcde80',
+      })
+    }, 50) // small delay to allow CSS to update
+
+    return () => clearTimeout(timeout)
+  }, [isDark])
 
   // Combine labels and data into one array of objects
   const chartData = data.labels.map((label, i) => ({
@@ -50,30 +70,30 @@ const SalesChart: React.FC<Props> = ({ data }) => {
             >
               <stop
                 offset='20%'
-                stopColor={isDark ? '#1b94d1' : '#18709b'}
+                stopColor={colors.accent}
                 stopOpacity={0.8}
               />
               <stop
                 offset='95%'
-                stopColor={isDark ? '#1b94d1' : '#18709b'}
+                stopColor={colors.accent}
                 stopOpacity={0}
               />
             </linearGradient>
           </defs>
           <CartesianGrid
             strokeDasharray='2 2'
-            stroke={isDark ? '#ebebeb20' : '#181b1c20'}
+            stroke={colors.grid}
           />
           <XAxis
             dataKey='day'
-            stroke={isDark ? '#0d72a5' : '#07557c'}
+            stroke={colors.tick}
           />
-          <YAxis stroke={isDark ? '#0d72a5' : '#07557c'} />
+          <YAxis stroke={colors.tick} />
           <Tooltip />
           <Area
             type='monotone'
             dataKey='sales'
-            stroke={isDark ? '#1b94d1' : '#18709b'}
+            stroke={colors.accent}
             fill={`url(#${gradientId})`}
             strokeWidth={2}
             dot={false}
@@ -84,4 +104,4 @@ const SalesChart: React.FC<Props> = ({ data }) => {
   )
 }
 
-export default memo(SalesChart)
+export default SalesChart

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAppContext } from '@/contexts/state'
 import '@/lib/chartSetup'
 import { Bar } from 'react-chartjs-2'
@@ -12,6 +12,26 @@ interface EngagementChartProps {
 
 const EngagementChart = ({ data }: EngagementChartProps) => {
   const { isDark } = useAppContext()
+  const [colors, setColors] = useState({
+    accent: '#18709b',
+    tick: '#07557c',
+    grid: '#d8dcde80',
+  })
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const root = getComputedStyle(document.documentElement)
+      setColors({
+        accent: root.getPropertyValue('--accent-color').trim() || '#18709b',
+        tick:
+          root.getPropertyValue('--accent-color').trim() + '99' || '#07557c',
+        grid:
+          root.getPropertyValue('--border-color').trim() + '80' || '#d8dcde80',
+      })
+    }, 50)
+
+    return () => clearTimeout(timeout)
+  }, [isDark])
 
   const chartData = {
     labels: data.labels,
@@ -19,7 +39,7 @@ const EngagementChart = ({ data }: EngagementChartProps) => {
       {
         label: 'User Engagement',
         data: data.data,
-        backgroundColor: isDark ? '#1b94d1' : '#18709b',
+        backgroundColor: colors.accent,
         borderRadius: 7,
         barPercentage: 0.7,
       },
@@ -42,15 +62,15 @@ const EngagementChart = ({ data }: EngagementChartProps) => {
       x: {
         beginAtZero: true,
         ticks: {
-          color: isDark ? '#0d72a5' : '#07557c',
+          color: colors.tick,
         },
         grid: {
-          color: isDark ? '#6b6f7140' : '#d8dcde40',
+          color: colors.grid,
         },
       },
       y: {
         ticks: {
-          color: isDark ? '#0d72a5' : '#07557c',
+          color: colors.tick,
         },
         grid: {
           display: false,
@@ -73,4 +93,4 @@ const EngagementChart = ({ data }: EngagementChartProps) => {
   )
 }
 
-export default memo(EngagementChart)
+export default EngagementChart
