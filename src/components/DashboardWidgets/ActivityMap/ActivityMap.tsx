@@ -36,7 +36,7 @@ const ActivityMap = ({ locations }: { locations: Location[] }) => {
       center={center}
       zoom={4}
       scrollWheelZoom={false}
-      style={{ height: '500px', width: '100%', borderRadius: '8px' }}
+      style={{ height: '590px', width: '100%', borderRadius: '8px' }}
     >
       <MapAutoResize />
       <TileLayer
