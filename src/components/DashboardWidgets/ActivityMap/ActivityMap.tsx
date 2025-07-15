@@ -18,7 +18,6 @@ const ActivityMap = ({ locations }: { locations: Location[] }) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const isMobile = window.innerWidth < 768
-      console.log('isMobile:', isMobile)
       setZoom(isMobile ? 3 : 4)
     }
   }, [])

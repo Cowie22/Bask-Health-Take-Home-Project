@@ -180,9 +180,13 @@ export default function DashboardLayout() {
   return (
     <ResponsiveGridLayout
       className='layout'
-      layouts={{ lg: filteredLayout }}
-      cols={{ lg: 6, md: 3, sm: 1 }}
-      breakpoints={{ lg: 1200, md: 996, sm: 768 }}
+      layouts={{
+        lg: filteredLayout,
+        md: filteredLayout,
+        sm: filteredLayout,
+      }}
+      cols={{ lg: 6, md: 6, sm: 2 }}
+      breakpoints={{ lg: 1024, md: 768, sm: 525 }}
       rowHeight={330}
       margin={[16, 16]}
       onLayoutChange={editMode ? onLayoutChange : undefined}
