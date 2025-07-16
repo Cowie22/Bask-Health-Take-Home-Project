@@ -72,9 +72,12 @@ export default function DashboardLayout() {
     setLayout(newLayout)
   }
 
-  const handleDeleteWidget = (key: string) => {
-    removeWidget(key)
-  }
+  const handleDeleteWidget = useCallback(
+    (key: string) => {
+      removeWidget(key)
+    },
+    [removeWidget]
+  )
 
   const renderWidget = useCallback(
     (widgetKey: string) => {
@@ -172,7 +175,7 @@ export default function DashboardLayout() {
           return null
       }
     },
-    [data, editMode, lastUpdated]
+    [data, editMode, handleDeleteWidget]
   )
 
   if (!layout) return null
