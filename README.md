@@ -6,6 +6,15 @@ This project was developed for the **Bask Health Frontend Take-Home Test**, focu
 
 ---
 
+## Project Handoff
+
+> **Deployed on Vercel** for optimal Next.js hosting. **Project Video** located on Google Drive
+
+Check out the live dashboard here: [Real-Time Dashboard](https://real-time-dashboard-two.vercel.app/dashboard)
+Check out the project video here: [Project Video](https://drive.google.com/file/d/1ccvl6a2R0c7W-dCkBHRlEveqsDuE9Ux5/view?usp=sharing)
+
+---
+
 ## 🚀 Key Features
 
 - 🔄 **Real-Time Data Polling:** Automatically fetches fresh data from the API every 5 seconds.
@@ -214,3 +223,4 @@ A recorded walkthrough video demonstrating:
 > **Deployed on Vercel** for optimal Next.js hosting.
 
 Check out the live dashboard here: [Real-Time Dashboard](https://real-time-dashboard-two.vercel.app/dashboard)
+Check out the project video here: [Project Video](https://drive.google.com/file/d/1ccvl6a2R0c7W-dCkBHRlEveqsDuE9Ux5/view?usp=sharing)

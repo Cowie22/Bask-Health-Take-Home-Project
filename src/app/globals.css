@@ -47,20 +47,6 @@ h1,
   }
 }
 
-h1,
-.h1 {
-  font-family: var(--geist);
-  font-style: normal;
-  font-size: 39px;
-  line-height: 120%;
-  font-weight: 400;
-  color: var(--neutral-1);
-
-  @media only screen and (max-width: 991px) {
-    font-size: 39px;
-  }
-}
-
 h2,
 .h2 {
   font-family: var(--inter);
