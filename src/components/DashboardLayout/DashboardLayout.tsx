@@ -33,7 +33,6 @@ export default function DashboardLayout() {
     autoFetch,
     updateLastUpdated,
     removeWidget,
-    lastUpdated,
   } = useAppContext()
 
   const [data, setData] = useState<any>(null)

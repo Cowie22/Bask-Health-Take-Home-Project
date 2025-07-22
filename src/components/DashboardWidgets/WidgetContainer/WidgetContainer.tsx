@@ -40,7 +40,7 @@ const WidgetContainer = ({
         transition: '0.5s all',
       }}
     >
-      <div className='py-2 px-3 mb-3 border-b border-[var(--neutral-4)] flex items-center justify-between'>
+      <div className='py-2 px-3 mb-3 border-b border-[var(--border-color)] flex items-center justify-between'>
         <div className='flex items-center justify-between'>
           {editMode && (
             <button className='drag-handle cta-btn white-btn no-svg-margin less-padding mr-2'>

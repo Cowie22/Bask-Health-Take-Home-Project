@@ -52,7 +52,7 @@ const ActivityMap = ({ locations }: { locations: Location[] }) => {
           anchor={[selected.latitude, selected.longitude]}
           offset={[0, 40]}
         >
-          <div className='bg-[var(--background)] shadow-lg rounded p-2 text-sm border border-[var(--borderColor)] z-50'>
+          <div className='bg-[var(--background)] shadow-lg rounded p-2 text-sm border border-[var(--border-color)] z-50'>
             <p className='font-semibold'>{selected.label}</p>
             <p>Activity: {selected.activity}</p>
           </div>

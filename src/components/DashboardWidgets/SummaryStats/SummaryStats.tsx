@@ -25,7 +25,7 @@ const SummaryStats = ({
 
   return (
     <div className='overflow-scroll h-[270px]'>
-      <div className='pt-1 pb-4 px-3 border-b border-[var(--neutral-4)]'>
+      <div className='pt-1 pb-4 px-3 border-b border-[var(--border-color)]'>
         <p className='h5 neutral-2 mb-2'>
           Total Sales
         </p>
@@ -34,7 +34,7 @@ const SummaryStats = ({
         </p>
       </div>
 
-      <div className='py-4 px-3 border-b border-[var(--neutral-4)]'>
+      <div className='py-4 px-3 border-b border-[var(--border-color)]'>
         <p className='h5 neutral-2 mb-2'>
           Average Daily Sales
         </p>
@@ -43,7 +43,7 @@ const SummaryStats = ({
         </p>
       </div>
 
-      <div className='py-4 px-3 border-b border-[var(--neutral-4)]'>
+      <div className='py-4 px-3 border-b border-[var(--border-color)]'>
         <p className='h5 neutral-2 mb-2'>
           Total Profit (20% margin)
         </p>
@@ -52,7 +52,7 @@ const SummaryStats = ({
         </p>
       </div>
 
-      <div className='py-4 px-3 border-b border-[var(--neutral-4)]'>
+      <div className='py-4 px-3 border-b border-[var(--border-color)]'>
         <p className='h5 neutral-2 mb-2'>
           Top City
         </p>
