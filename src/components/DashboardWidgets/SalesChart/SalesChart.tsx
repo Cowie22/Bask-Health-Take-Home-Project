@@ -25,6 +25,9 @@ const SalesChart: React.FC<Props> = ({ data }) => {
     accent: '#18709b',
     tick: '#07557c',
     grid: '#d8dcde80',
+    background: '#fafdff',
+    foreground: '#181b1c',
+    borderColor: '#181b1c',
   })
 
   useEffect(() => {
@@ -36,6 +39,9 @@ const SalesChart: React.FC<Props> = ({ data }) => {
           root.getPropertyValue('--accent-color').trim() + '99' || '#07557c',
         grid:
           root.getPropertyValue('--border-color').trim() + '80' || '#d8dcde80',
+        background: root.getPropertyValue('--background').trim() || '#fafdff',
+        foreground: root.getPropertyValue('--foreground').trim() || '#181b1c',
+        borderColor: root.getPropertyValue('--border-color').trim() || '#181b1c',
       })
     }, 50) // small delay to allow CSS to update
 
@@ -94,7 +100,22 @@ const SalesChart: React.FC<Props> = ({ data }) => {
             stroke={colors.tick}
             fontSize={13}
           />
-          <Tooltip />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: colors.background,
+              border: `1px solid ${colors.borderColor}`,
+              borderRadius: '8px',
+              fontSize: '12px',
+              padding: '8px',
+            }}
+            labelStyle={{
+              color: colors.tick,
+              fontWeight: 'bold',
+            }}
+            itemStyle={{
+              color: colors.accent,
+            }}
+          />
           <Area
             type='monotone'
             dataKey='sales'
