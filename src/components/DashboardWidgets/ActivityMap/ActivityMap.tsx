@@ -34,8 +34,11 @@ const ActivityMap = ({ locations }: { locations: Location[] }) => {
           key={idx}
           width={40}
           anchor={[loc.latitude, loc.longitude]}
-          onClick={() => {
+          onMouseOver={() => {
             setSelected(loc)
+          }}
+          onMouseOut={() => {
+            setSelected(null)
           }}
         >
           <div
@@ -50,7 +53,7 @@ const ActivityMap = ({ locations }: { locations: Location[] }) => {
       {selected && (
         <Overlay
           anchor={[selected.latitude, selected.longitude]}
-          offset={[0, 40]}
+          offset={[-20, 40]}
         >
           <div className='bg-[var(--background)] shadow-lg rounded p-2 text-sm border border-[var(--border-color)] z-50'>
             <p className='font-semibold'>{selected.label}</p>
